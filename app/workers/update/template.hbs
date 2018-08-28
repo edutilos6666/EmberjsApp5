@@ -1,0 +1,12 @@
+<div class="parent">
+  <h3>Update Worker</h3>
+  Id: {{input value=model.id disabled=true}} <br>
+  Name: {{input value=model.name}} <br>
+  Age: {{input value=model.age}} <br>
+  Wage: {{input value=model.wage}} <br>
+  Active: {{input value=model.active}} <br>
+  <button {{action 'updateWorker'}}>Update Worker</button>
+</div>
+<div class="child">
+{{outlet}}
+</div>

@@ -1,0 +1,13 @@
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Author</th>
+    <th>Content</th>
+  </tr>
+{{#each model as |item|}}
+{{!-- {{item.content}} <br/><br/> --}}
+{{note-view note=item}}
+{{/each}}
+</table>
+
+{{outlet}}

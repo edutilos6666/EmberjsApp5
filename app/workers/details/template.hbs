@@ -1,0 +1,13 @@
+<div class="parent">
+  <h3>Worker Details</h3>
+  Id: {{model.id}} <br>
+  Name: {{model.name}} <br>
+  Age: {{model.age}} <br>
+  Wage: {{model.wage}} <br>
+  Active: {{model.active}} <br>
+  {{!-- <button {{action 'returnToWorkers'}}>Return To Workers</button>  --}}
+  {{#link-to 'workers'}}Return To Workers{{/link-to}}
+</div>
+<div class="child">
+  {{outlet}}
+</div>

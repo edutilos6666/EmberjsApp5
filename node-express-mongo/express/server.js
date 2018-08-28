@@ -1,0 +1,218 @@
+var express = require('express'); 
+var mongoose = require('mongoose'); 
+var app = express(); 
+
+var bodyParser = require('body-parser');
+app.use(bodyParser.json({ type: 'application/json' }));
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false })); 
+
+
+app.use(function(req, res, next) {
+   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200'); 
+   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept'); 
+   res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS'); 
+   next(); 
+}); 
+
+mongoose.connect('mongodb://localhost/emberData'); 
+
+var noteSchema = new mongoose.Schema({
+   title: 'string', 
+   content: 'string', 
+   author: 'string'
+});  
+
+var NoteModel = mongoose.model('note', noteSchema); 
+app.get('/api', function(req, res) {
+   res.send('Working'); 
+}); 
+
+
+var workerSchema = new mongoose.Schema({
+   name: 'string', 
+   age:'number', 
+   wage: 'number', 
+   active: 'boolean'
+}); 
+
+
+
+var WorkerModel = mongoose.model('worker', workerSchema); 
+
+
+app.get('/api/notes', function(req, res) {
+  NoteModel.find({}, function(err, docs) {
+    console.log({note:docs}); 
+    if(err) {
+       res.send({error:err}); 
+    } else { 
+       res.send({note:docs}); 
+    }
+  }); 
+}); 
+
+
+app.get('/api/workers', function(req, res)  {
+    WorkerModel.find({}, function(err, docs) {
+       if(err)  {
+          res.send({error:err}); 
+      } else {
+          res.send({worker:docs}); 
+      } 
+   }); 
+}); 
+
+
+
+
+app.post('/api/workers', function(req,res)  {
+    console.log(req.body);
+    if(req.body.worker) req.body = req.body.worker;  
+    var id = req.body.id; 
+    var name = req.body.name; 
+    var age = req.body.age; 
+    var wage = req.body.wage; 
+    var active = req.body.active; 
+    var worker = new WorkerModel({
+    id: id , 
+    name: name, 
+    age: age, 
+    wage: wage, 
+    active: active 
+    }); 
+
+    console.log(id, name, age, wage, active); 
+
+    //console.log(worker); 
+
+     worker.save(function(err, w) {
+       if(err) res.send({error:err}); 
+       else res.send({worker:w}); 
+    }); 
+}); 
+
+
+app.post('/api/workers/all', function(req,res)  {
+  //  console.log(req.body); 
+   var workers = req.body.workers; 
+  for(var i=0; i< workers.length; ++i) {
+      var id = workers[i].id; 
+    var name = workers[i].name; 
+    var age = workers[i].age; 
+    var wage = workers[i].wage; 
+    var active = workers[i].active; 
+    var worker = new WorkerModel({
+    id: id , 
+    name: name, 
+    age: age, 
+    wage: wage, 
+    active: active 
+    }); 
+
+    //console.log(worker); 
+      var flag = false; 
+     worker.save(function(err, w) {
+       if(err) {
+res.send({error:err}); 
+flag = true; 
+}
+      // else res.send({worker:w}); 
+    });
+
+   if(flag) break;  
+} 
+  res.send("Added all successfully"); 
+
+}); 
+
+
+
+app.delete('/api/workers/delete/v0', function(req, res) {
+    WorkerModel.deleteMany({__v:0}, function(err, raw)  {
+        if(err) res.send({error:err}); 
+        else res.send(raw); 
+  }); 
+}); 
+
+app.delete('/api/workers/delete/all', function(req, res) {
+   WorkerModel.find({}, function(err, docs) {
+        if(err) res.send({error:err}); 
+        else {
+console.log(docs); 
+    var flag = false; 
+        for(var i=0; i< docs.length; ++i) {
+ WorkerModel.deleteOne({_id:docs[i]._id}, function(err2, raw) {
+          if(err2) { res.send({error:err2}); 
+ flag = true; 
+}
+     //     else res.send(raw); 
+        });
+
+  if(flag) break; 
+}
+  res.send("Deleted all rows"); 
+        
+       }
+   }); 
+}); 
+
+
+app.get('/api/workers/:id', function(req, res) {
+    var id = req.params.id; 
+    WorkerModel.find({_id:id}, function(err, docs) {
+        if(err)  {
+          res.send({error:err}); 
+      } else {
+          res.send({worker:docs}); 
+      } 
+});  
+}); 
+
+app.patch('/api/workers/:id', function(req, res) {
+      var id = req.params.id; 
+   if(req.body.worker) req.body = req.body.worker; 
+      var name = req.body.name; 
+      var age = req.body.age; 
+      var wage = req.body.wage; 
+      var active = req.body.active; 
+      WorkerModel.updateOne({_id:id}, {_id:id, name:name, age:age, wage:wage, active:active}, function(err2, raw) {
+        if(err2) res.send({error:err2}); 
+        else res.send({worker:raw});    
+   }); 
+});
+
+
+
+
+app.put('/api/workers/:id', function(req, res) {
+      console.log("req.params=" , req.params); 
+      console.log("req.body=", req.body); 
+   if(req.body.worker) req.body = req.body.worker; 
+      var id = req.params.id; 
+      var name = req.body.name; 
+      var age = req.body.age; 
+      var wage = req.body.wage; 
+      var active = req.body.active; 
+      WorkerModel.updateOne({_id:id}, {_id:id, name:name, age:age, wage:wage, active:active}, function(err2, raw) {
+        if(err2) res.send({error:err2}); 
+        else res.send(raw);    
+   }); 
+});  
+
+app.delete('/api/workers/:id', function(req, res) {
+    var id = req.params.id; 
+    WorkerModel.deleteOne({_id:id}, function(err, raw) {
+       if(err) res.send({error:err}); 
+       else res.send({worker:raw}); 
+  }); 
+}); 
+
+
+
+app.delete
+
+app.listen('4500'); 
+
+
+
