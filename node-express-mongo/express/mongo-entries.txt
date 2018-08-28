@@ -1,0 +1,22 @@
+[{myid:1 , name:'foo', age:10, wage:100.0, active:true}, {myid:2 , name:'bar', age:20, wage:200.0, active:false}, {myid:3 , name:'bim', age:30, wage:300.0, active:true}]
+{"myid":4 , "name":"messi", "age":40, "wage":400.0, "active":false}
+
+
+[{name:'foo', age:10, wage:100.0, active:true}, {name:'bar', age:20, wage:200.0, active:false}, {name:'bim', age:30, wage:300.0, active:true}]
+{"myid":4 , "name":"messi", "age":40, "wage":400.0, "active":false}
+
+
+{name:'foo', age:10, wage:100.0, active:true}
+{name:'bar', age:20, wage:200.0, active:false}, {name:'bim', age:30, wage:300.0, active:true}
+
+
+
+//mongo schema: emberData 
+//mongo collection: workers 
+mongo 
+use emberData 
+db.workers.find(); 
+db.workers.insert([]); 
+
+
+//postman link: https://www.getpostman.com/collections/0179101ce7508a067fcd

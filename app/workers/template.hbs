@@ -1,0 +1,21 @@
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Age</th>
+    <th>Wage</th>
+    <th>Active</th>
+    <th>Update</th>
+    <th>Delete</th>
+    <th>Details</th>
+  </tr>
+{{#each model as |worker|}}
+{{worker-view worker=worker}}
+{{/each}}
+</table>
+<br><br><br>
+<nav>
+  {{#link-to 'workers.create'}}Add New Worker{{/link-to}}
+</nav>
+<br><br><br>
+{{outlet}}

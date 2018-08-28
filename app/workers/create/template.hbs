@@ -1,0 +1,13 @@
+<div class="parent">
+<h3>Add New Worker</h3>
+{{!-- myid:  {{input value=myid placeholder="myid of worker"}} <br> --}}
+name: {{input value=name placeholder="name of worker"}} <br>
+age: {{input value=age placeholder="age of worker"}} <br>
+wage: {{input value=wage placeholder="wage of worker"}} <br>
+active: {{input value=active placeholder="active of worker"}} <br>
+<button {{action 'createWorker'}}>Create Worker</button>
+</div>
+
+<div class="child">
+{{outlet}}
+</div>
