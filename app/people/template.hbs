@@ -1,0 +1,8 @@
+<div class="parent">
+  {{#each model as |person|}}
+    {{person-view person=person}}
+  {{/each}}
+</div>
+<div class="child">
+  {{outlet}}
+</div>
