@@ -1,0 +1,10 @@
+<div class="parent">
+  {{log "hello world"}}
+  {{#each model as |student|}}
+  {{log student}}
+  {{student-view student=student}}
+  {{/each}}
+</div>
+<div class="child">
+  {{outlet}}
+</div>

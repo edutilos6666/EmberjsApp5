@@ -49,6 +49,7 @@
     "node": "6.* || 8.* || >= 10.*"
   },
   "dependencies": {
-    "ember-cli-chartist": "^1.2.2"
+    "ember-cli-chartist": "^1.2.2",
+    "mongoose": "^5.2.10"
   }
 }

@@ -7,5 +7,5 @@
   */
   "disableAnalytics": false,
   "usePods":true,
-  "port": 4201
+  "port": 4200
 }

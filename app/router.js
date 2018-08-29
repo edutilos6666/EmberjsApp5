@@ -15,6 +15,8 @@ Router.map(function() {
   });
   this.route('people');
   this.route('charttest1');
+  this.route('students');
+  this.route('charttest2');
 });
 
 export default Router;
